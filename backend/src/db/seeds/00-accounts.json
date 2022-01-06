@@ -1,0 +1,50 @@
+[
+	{
+		"username": "morganTheFifth",
+		"email": "bingotti@scotti.com",
+		"password": "Jacob555",
+		"first_name": "Morgan",
+		"last_name": "the Fifth",
+		"account_type": "free"
+	},
+	{
+		"username": "marveloProblemo",
+		"email": "meowww@zerrs.com",
+		"password": "Jacob555",
+
+		"first_name": "Marvelo",
+		"last_name": "Problemo",
+
+		"account_type": "free"
+	},
+	{
+		"username": "bawnner",
+		"email": "bawning@zerrs.com",
+		"password": "Jacob555",
+
+		"first_name": "Bawn",
+		"last_name": "ner",
+
+		"account_type": "free"
+	},
+	{
+		"username": "bewnt",
+		"email": "bewnt@zerrs.com",
+		"password": "Jacob555",
+
+		"first_name": "Bewnt",
+		"last_name": "ughghgh",
+
+		"account_type": "free"
+	},
+	{
+		"username": "Rekt",
+		"email": "rekt@zerrs.com",
+		"password": "Jacob555",
+
+		"first_name": "Rekt",
+		"last_name": "sigh",
+
+		"account_type": "free"
+	}
+]
