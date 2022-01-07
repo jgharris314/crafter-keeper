@@ -31,7 +31,7 @@ function listAccountByUsername(username) {
 }
 
 function list() {
-	return knex("users").select("username");
+	return knex("users").select("*");
 }
 
 module.exports = {

@@ -10,7 +10,6 @@ const hasProperties = require("../errors/hasProperties")(
 async function authorize(req, res, next) {
 	const username = req.body.data.username;
 	const password = req.body.data.password;
-
 	if (username && password) {
 		service
 			.authorization(username, password)
@@ -18,9 +17,10 @@ async function authorize(req, res, next) {
 				if (results.length > 0) {
 					req.session.loggedin = true;
 					req.session.username = username;
-
 					req.session.account_type = results[0].account_type;
-					req.session.nice = "nice";
+					req.session.plans = results[0].plans;
+					req.session.orders = results[0].orders;
+					req.session.supplies = results[0].supplies;
 					req.session.user_id = results[0].user_id;
 					req.session.first_name = results[0].first_name;
 					res.locals.session = req.session;

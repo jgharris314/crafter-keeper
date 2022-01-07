@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useLocation } from "react-router-dom";
 import { StyledLoginForm } from "./login-form.styles";
 import { login } from "../../../../utils/api";
@@ -12,9 +12,12 @@ const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 		e.preventDefault();
 
 		const abortController = new AbortController();
-		await login(formData, abortController.signal).then(setActiveUser);
+		const results = await login(formData, abortController.signal);
 
-		setLoggedIn(true);
+		setActiveUser(results);
+
+		setLoggedIn(results.loggedin);
+		localStorage.setItem("activeUser", JSON.stringify(results));
 		return () => abortController.abort;
 	}
 
@@ -27,8 +30,14 @@ const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 	};
 	const handleCancel = () => {
 		setFormData({ ...initialFormData });
-		// history.push("/");
+		window.location.href = "/";
 	};
+
+	useEffect(() => {
+		if (loggedIn) {
+			window.location.href = "dashboard";
+		}
+	}, [activeUser, loggedIn]);
 
 	return (
 		<StyledLoginForm>

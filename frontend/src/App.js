@@ -1,18 +1,36 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import Home from "./components/Home/Home";
 import AccountAccess from "./components/AccountAccess/AccountAccess";
+import Dashboard from "./components/Dashboard/Dashboard";
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
 
 	const defaultUser = { username: "guest" };
 
 	const [activeUser, setActiveUser] = useState(defaultUser);
+	useEffect(() => {
+		const loggedInUser = localStorage.getItem("activeUser");
+		const today = new Date(Date.now());
+		if (loggedInUser) {
+			const foundUser = JSON.parse(loggedInUser);
+			if (foundUser.cookie.expires > today.toISOString()) {
+				return setActiveUser(foundUser);
+			} else {
+				setActiveUser(defaultUser);
+				localStorage.setItem("activeUser", "");
+			}
+		}
+	}, []);
 	return (
 		<div className="App">
-			Welcome {activeUser.username}!
 			<Routes>
-				<Route path="/" exact element={<>Home</>} />
+				<Route
+					path="/"
+					exact
+					element={<Home activeUser={activeUser} />}
+				/>
 
 				<Route
 					path="accounts"
@@ -25,6 +43,12 @@ function App() {
 							setActiveUser={setActiveUser}
 						/>
 					}
+				/>
+
+				<Route
+					path="dashboard"
+					exact
+					element={<Dashboard activeUser={activeUser} />}
 				/>
 			</Routes>
 		</div>

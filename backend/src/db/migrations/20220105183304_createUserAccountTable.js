@@ -5,8 +5,9 @@ exports.up = function (knex) {
 		table.string("email").unique().notNullable();
 		table.string("password").notNullable();
 		table.timestamps(true, true);
-		table.specificType("plans", "INT[]");
-		table.specificType("orders", "INT[]");
+		table.json("plans");
+		table.json("orders");
+		table.json("supplies");
 		table.string("first_name");
 		table.string("last_name");
 		table.string("account_type").defaultTo("free");

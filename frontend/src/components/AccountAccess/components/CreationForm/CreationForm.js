@@ -4,7 +4,17 @@ import { StyledCreationForm } from "./creation-form.styles";
 import { createAccount } from "../../../../utils/api";
 
 const CreationForm = () => {
-	const initialFormData = { username: "", email: "", password: "" };
+	const initialFormData = {
+		username: "",
+		email: "",
+		password: "",
+		first_name: "",
+		last_name: "",
+		account_type: "free",
+		plans: { data: [] },
+		orders: { data: [] },
+		supplies: { data: [] },
+	};
 	// const history = useHistory();
 	const [formData, setFormData] = useState({ ...initialFormData });
 	const [failedPass, setFailedPass] = useState(false);
@@ -14,21 +24,22 @@ const CreationForm = () => {
 		const valid = pattern.test(formData.password);
 
 		if (!valid) {
-			console.log("hmm");
+			console.log("password failed");
 			setFailedPass(true);
 			return;
 		}
 		return setFailedPass(false);
 	};
 
-	const handleCreateAccount = () => {
-		validatePassword();
+	const handleCreateAccount = (e) => {
+		e.preventDefault();
+		console.log(failedPass);
+		// validatePassword();
 
-		if (!failedPass) {
-			const abortController = new AbortController();
-			createAccount(formData, abortController.signal);
-			return () => abortController.abort;
-		}
+		const abortController = new AbortController();
+		createAccount(formData, abortController.signal);
+
+		return () => abortController.abort;
 	};
 
 	const handleChange = ({ target }) => {
@@ -40,12 +51,13 @@ const CreationForm = () => {
 	};
 	const handleCancel = () => {
 		setFormData({ ...initialFormData });
+		window.location.href = "/";
 	};
 
 	return (
 		<StyledCreationForm>
 			<form
-				onSubmit={() => handleCreateAccount()}
+				onSubmit={(e) => handleCreateAccount(e)}
 				className="creation-form"
 			>
 				<div className="creation-form-row">

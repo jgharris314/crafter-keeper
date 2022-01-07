@@ -18,7 +18,7 @@ const AccountAccess = ({
 	};
 	return (
 		<StyledAccountAccess>
-			<h3>Whirlwind Check!</h3>
+			<h3>Do the thing!</h3>
 			<form className="radio-form">
 				<input
 					id="login"
