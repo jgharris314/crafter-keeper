@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import { StyledCreationForm } from "./creation-form.styles";
 import { createAccount } from "../../../../utils/api";
@@ -18,7 +18,7 @@ const CreationForm = () => {
 	// const history = useHistory();
 	const [formData, setFormData] = useState({ ...initialFormData });
 	const [failedPass, setFailedPass] = useState(false);
-
+	const [accountCreated, setAccountCreated] = useState(false);
 	const validatePassword = () => {
 		const pattern = new RegExp("^(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$"); // eslint-disable-line
 		const valid = pattern.test(formData.password);
@@ -31,16 +31,25 @@ const CreationForm = () => {
 		return setFailedPass(false);
 	};
 
-	const handleCreateAccount = (e) => {
+	const handleCreateAccount = async (e) => {
+		//this still sets account created even when the account isn't created IE:there is a repeat username. how to fix??
 		e.preventDefault();
-		console.log(failedPass);
-		// validatePassword();
-
 		const abortController = new AbortController();
-		createAccount(formData, abortController.signal);
+		await createAccount(formData, abortController.signal).then(
+			setAccountCreated(true)
+		);
 
 		return () => abortController.abort;
 	};
+
+	useEffect(() => {
+		if (accountCreated) {
+			setTimeout(() => {
+				window.alert("Thank you for joining!");
+				window.location.href = "/";
+			}, 1000);
+		}
+	}, [accountCreated]);
 
 	const handleChange = ({ target }) => {
 		const value = target.value;

@@ -23,8 +23,19 @@ function App() {
 			}
 		}
 	}, []);
+
+	const handleSignOut = () => {
+		setActiveUser(defaultUser);
+		localStorage.setItem("activeUser", "");
+		window.location.href = "/";
+	};
 	return (
 		<div className="App">
+			{activeUser.username !== "guest" && (
+				<div className="sign-out-button">
+					<button onClick={() => handleSignOut()}>Sign out</button>
+				</div>
+			)}
 			<Routes>
 				<Route
 					path="/"
