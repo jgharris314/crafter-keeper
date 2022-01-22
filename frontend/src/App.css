@@ -1,6 +1,7 @@
 .App {
 	text-align: center;
 	background-color: rgba(29, 32, 42, 1);
+	color: white;
 }
 
 .App-logo {
@@ -31,7 +32,9 @@
 
 .sign-out-button {
 	text-align: right;
-	margin-right: 5%;
+
+	margin-left: 90%;
+	position: fixed;
 }
 
 @keyframes App-logo-spin {

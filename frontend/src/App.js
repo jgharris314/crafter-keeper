@@ -4,6 +4,9 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home/Home";
 import AccountAccess from "./components/AccountAccess/AccountAccess";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Orders from "./components/Orders/Orders";
+import Supplies from "./components/Supplies/Supplies";
+import Plans from "./components/Plans/Plans";
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
 
@@ -61,6 +64,9 @@ function App() {
 					exact
 					element={<Dashboard activeUser={activeUser} />}
 				/>
+				<Route path="plans" exact element={<Plans />} />
+				<Route path="orders" exact element={<Orders />} />
+				<Route path="supplies" exact element={<Supplies />} />
 			</Routes>
 		</div>
 	);

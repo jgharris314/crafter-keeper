@@ -6,19 +6,29 @@ const Dashboard = ({ activeUser }) => {
 	return (
 		<StyledDashboard>
 			{activeUser.orders && activeUser.supplies && activeUser.plans && (
-				<>
-					Welcome to CrafterKeeper {activeUser.username}
-					<div>
-						<div>
-							You have {activeUser.orders.data.length} orders to
-							complete{" "}
+				<div className="dashboard">
+					<h1>Welcome to CrafterKeeper {activeUser.username}</h1>
+					<div className="dashboard-section">
+						<div
+							className="dashboard-section-item"
+							onClick={() => (window.location.href = "/orders")}
+						>
+							Orders
 						</div>
-						<br />
-						You have {activeUser.supplies.data.length} unique supply
-						types <br />
-						You have {activeUser.plans.data.length} plans <br />
+						<div
+							className="dashboard-section-item"
+							onClick={() => (window.location.href = "/supplies")}
+						>
+							Supplies
+						</div>
+						<div
+							className="dashboard-section-item"
+							onClick={() => (window.location.href = "/plans")}
+						>
+							Plans
+						</div>
 					</div>
-				</>
+				</div>
 			)}
 		</StyledDashboard>
 	);
