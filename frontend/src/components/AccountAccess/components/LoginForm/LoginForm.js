@@ -7,17 +7,21 @@ const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 	const initialFormData = { username: "", password: "" };
 	// const history = useLocation();
 	const [formData, setFormData] = useState({ ...initialFormData });
-
+	const [error, setError] = useState();
 	async function handleLogin(e) {
 		e.preventDefault();
-
+		setError();
 		const abortController = new AbortController();
-		const results = await login(formData, abortController.signal);
+		const results = await login(formData, abortController.signal).catch(
+			setError
+		);
 
-		setActiveUser(results);
+		if (results) {
+			setActiveUser(results);
 
-		setLoggedIn(results.loggedin);
-		localStorage.setItem("activeUser", JSON.stringify(results));
+			setLoggedIn(results.loggedin);
+			localStorage.setItem("activeUser", JSON.stringify(results));
+		}
 		return () => abortController.abort;
 	}
 
@@ -41,6 +45,7 @@ const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 
 	return (
 		<StyledLoginForm>
+			{error ? <div className="error-div"> {error.message}</div> : null}
 			<form onSubmit={(e) => handleLogin(e)} className="login-form">
 				<div className="login-form-row">
 					<label className="login-form-row-label" htmlFor="userName">

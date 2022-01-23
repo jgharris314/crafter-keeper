@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { useHistory } from "react-router-dom";
 import { StyledCreationForm } from "./creation-form.styles";
 import { createAccount } from "../../../../utils/api";
 
@@ -15,39 +14,33 @@ const CreationForm = () => {
 		orders: { data: [] },
 		supplies: { data: [] },
 	};
-	// const history = useHistory();
-	const [formData, setFormData] = useState({ ...initialFormData });
-	const [failedPass, setFailedPass] = useState(false);
-	const [accountCreated, setAccountCreated] = useState(false);
-	const validatePassword = () => {
-		const pattern = new RegExp("^(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$"); // eslint-disable-line
-		const valid = pattern.test(formData.password);
 
-		if (!valid) {
-			console.log("password failed");
-			setFailedPass(true);
-			return;
-		}
-		return setFailedPass(false);
-	};
+	const [formData, setFormData] = useState({ ...initialFormData });
+	const [accountCreated, setAccountCreated] = useState();
+	const [error, setError] = useState();
 
 	const handleCreateAccount = async (e) => {
-		//this still sets account created even when the account isn't created IE:there is a repeat username. how to fix??
 		e.preventDefault();
 		const abortController = new AbortController();
-		await createAccount(formData, abortController.signal).then(
-			setAccountCreated(true)
-		);
+		setError();
+		await createAccount(formData, abortController.signal)
+			.then(setAccountCreated)
+			.catch(setError);
 
+		if (error && !error.message) {
+			setAccountCreated(true);
+		}
 		return () => abortController.abort;
 	};
 
 	useEffect(() => {
 		if (accountCreated) {
-			setTimeout(() => {
-				window.alert("Thank you for joining!");
-				window.location.href = "/";
-			}, 1000);
+			if (accountCreated.username) {
+				setTimeout(() => {
+					window.alert("Thank you for joining!");
+					window.location.href = "/";
+				}, 1000);
+			}
 		}
 	}, [accountCreated]);
 
@@ -65,6 +58,7 @@ const CreationForm = () => {
 
 	return (
 		<StyledCreationForm>
+			{error ? <div className="error-div"> {error.message}</div> : null}
 			<form
 				onSubmit={(e) => handleCreateAccount(e)}
 				className="creation-form"
@@ -99,11 +93,6 @@ const CreationForm = () => {
 						required
 					/>
 				</div>
-				{failedPass && (
-					<div className="password-info">
-						At least 8 characters, 1 uppercase, and 1 number
-					</div>
-				)}
 				<div className="creation-form-row">
 					<label
 						className="creation-form-row-label"

@@ -27,18 +27,42 @@ async function authorize(req, res, next) {
 
 					res.json({ data: res.locals.session });
 				} else {
-					res.send("Invalid Username or Password");
+					return next({
+						status: 400,
+						message: "Invalid Username or Password",
+					});
 				}
 				res.end();
 			})
 			.catch(next);
 	} else {
-		res.send("Please enter a Username and Password");
-		res.end();
+		return next({
+			status: 400,
+			message: "Invalid Username or Password",
+		});
 	}
 }
 
 async function create(req, res, next) {
+	const accountExists = await service.listAccountByUsername(
+		req.body.data.username
+	);
+
+	if (accountExists) {
+		return next({
+			status: 400,
+			message: `Username ${req.body.data.username} is already in use`,
+		});
+	}
+
+	const emailExists = await service.listAccountByEmail(req.body.data.email);
+
+	if (emailExists) {
+		return next({
+			status: 400,
+			message: `Email ${req.body.data.email} is already in use`,
+		});
+	}
 	service
 		.create(req.body.data)
 		.then((data) => res.status(201).json({ data }))

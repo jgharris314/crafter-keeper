@@ -35,7 +35,6 @@ export const StyledLoginForm = styled.div`
 			&-input {
 				display: flex;
 				flex-direction: column;
-				/* width: 70%; */
 				background-color: rgba(255, 255, 255, 0.8);
 				border: none;
 				border-radius: 3px;
@@ -75,5 +74,15 @@ export const StyledLoginForm = styled.div`
 			rgba(255, 255, 255, 0.4),
 			rgba(210, 74, 0, 0.8)
 		);
+	}
+
+	.error-div {
+		background-color: red;
+		height: 30px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin: 15px;
+		border-radius: 5px;
 	}
 `;

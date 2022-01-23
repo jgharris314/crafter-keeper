@@ -34,7 +34,6 @@ export const StyledCreationForm = styled.div`
 			&-input {
 				display: flex;
 				flex-direction: column;
-				/* width: 70%; */
 				background-color: rgba(255, 255, 255, 0.8);
 				border: none;
 				border-radius: 3px;
@@ -81,5 +80,15 @@ export const StyledCreationForm = styled.div`
 		background-color: inherit;
 		margin-top: 3px;
 		margin-bottom: 3px;
+	}
+
+	.error-div {
+		background-color: red;
+		height: 30px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin: 15px;
+		border-radius: 5px;
 	}
 `;

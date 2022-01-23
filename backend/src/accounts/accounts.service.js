@@ -34,6 +34,13 @@ function list() {
 	return knex("users").select("*");
 }
 
+function listAccountByEmail(email) {
+	return knex("users")
+		.select("email")
+		.where({ email: email })
+		.then((res) => res[0]);
+}
+
 module.exports = {
 	authorization,
 	create,
@@ -41,4 +48,5 @@ module.exports = {
 	list,
 	listAccountById,
 	listAccountByUsername,
+	listAccountByEmail,
 };
