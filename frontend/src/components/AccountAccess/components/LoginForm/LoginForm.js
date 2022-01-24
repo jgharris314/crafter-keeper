@@ -74,7 +74,7 @@ const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 						// pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
 					/>
 				</div>
-				<div className="login-form-row">
+				<div className="login-form-row" id="btn-row">
 					<button className="login-form-row-btn submit" type="submit">
 						Sign In
 					</button>

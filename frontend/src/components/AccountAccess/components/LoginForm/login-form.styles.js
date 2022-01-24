@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-import { darkgold, darkOrange } from "../../../../App.variables";
+import {
+	darkgold,
+	darkOrange,
+	outerBackgroundColor,
+} from "../../../../App.variables";
 
 export const StyledLoginForm = styled.div`
 	width: 85%;
@@ -22,8 +26,9 @@ export const StyledLoginForm = styled.div`
 			background-color: inherit;
 			display: flex;
 			flex-direction: row;
-			justify-content: space-evenly;
+			justify-content: center;
 			margin-bottom: 2px;
+			align-items: center;
 
 			&-label {
 				background-color: inherit;
@@ -43,7 +48,7 @@ export const StyledLoginForm = styled.div`
 			}
 
 			&-btn {
-				width: 50%;
+				width: 30%;
 				margin: 10px auto;
 
 				border: none;
@@ -51,29 +56,31 @@ export const StyledLoginForm = styled.div`
 				border-radius: 5px;
 				color: black;
 				font-weight: bold;
-				margin: 0.125rem;
+				margin: 5px;
 			}
 		}
 	}
 
 	.submit {
-		background-color: ${darkgold};
-		background-image: linear-gradient(
-			-45deg,
-			rgba(199, 144, 14, 0.8),
-			rgba(255, 255, 255, 0.4),
-			rgba(199, 144, 14, 1)
-		);
+		background-color: ${outerBackgroundColor};
+		border: 1px solid lime;
+		color: lime;
+
+		:hover {
+			background-color: lime;
+			color: black;
+		}
 	}
 
 	.cancel {
-		background-color: ${darkOrange};
-		background-image: linear-gradient(
-			-45deg,
-			rgba(210, 74, 0, 0.8),
-			rgba(255, 255, 255, 0.4),
-			rgba(210, 74, 0, 0.8)
-		);
+		background-color: ${outerBackgroundColor};
+		border: 1px solid red;
+		color: red;
+
+		:hover {
+			background-color: red;
+			color: black;
+		}
 	}
 
 	.error-div {
@@ -84,5 +91,9 @@ export const StyledLoginForm = styled.div`
 		justify-content: center;
 		margin: 15px;
 		border-radius: 5px;
+	}
+
+	#btn-row {
+		margin-top: 10px;
 	}
 `;

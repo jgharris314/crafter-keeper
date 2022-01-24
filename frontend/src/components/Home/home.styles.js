@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { outerBackgroundColor } from "../../App.variables";
 
 export const StyledHome = styled.div`
-	background-color: ${outerBackgroundColor};
+	/* background-color: ${outerBackgroundColor}; */
 	color: white;
 	width: 100%;
 	text-align: center;

@@ -112,7 +112,7 @@ const CreationForm = () => {
 					/>
 				</div>
 
-				<div className="creation-form-row">
+				<div className="creation-form-row" id="btn-row">
 					<button
 						className="creation-form-row-btn submit"
 						type="submit"
