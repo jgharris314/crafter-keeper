@@ -67,6 +67,7 @@ export const StyledLoginForm = styled.div`
 		color: lime;
 
 		:hover {
+			cursor: pointer;
 			background-color: lime;
 			color: black;
 		}
@@ -78,6 +79,7 @@ export const StyledLoginForm = styled.div`
 		color: red;
 
 		:hover {
+			cursor: pointer;
 			background-color: red;
 			color: black;
 		}

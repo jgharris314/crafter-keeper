@@ -78,12 +78,6 @@ const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 					<button className="login-form-row-btn submit" type="submit">
 						Sign In
 					</button>
-					<button
-						className="login-form-row-btn cancel"
-						onClick={handleCancel}
-					>
-						Cancel
-					</button>
 				</div>
 			</form>
 		</StyledLoginForm>

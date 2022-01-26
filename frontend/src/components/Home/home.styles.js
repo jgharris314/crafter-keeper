@@ -20,19 +20,23 @@ export const StyledHome = styled.div`
 
 	.account-access-button {
 		display: flex;
+		flex-direction: column;
 		margin-top: 50px;
 		width: 90px;
-		background-color: lime;
-		color: black;
+		background-color: inherit;
+		color: lime;
 		font-weight: bolder;
 		font-size: 50px;
 		padding: 0;
 		border-radius: 50px;
-
+		border: 3px solid lime;
 		justify-content: center;
 		align-items: center;
-		&:hover {
+
+		:hover {
 			cursor: pointer;
+			background-color: lime;
+			color: black;
 		}
 	}
 `;

@@ -119,12 +119,12 @@ const CreationForm = () => {
 					>
 						Create
 					</button>
-					<button
+					{/* <button
 						className="creation-form-row-btn cancel"
 						onClick={handleCancel}
 					>
 						Cancel
-					</button>
+					</button> */}
 				</div>
 			</form>
 		</StyledCreationForm>

@@ -66,7 +66,16 @@ function App() {
 				/>
 				<Route path="plans" exact element={<Plans />} />
 				<Route path="orders" exact element={<Orders />} />
-				<Route path="supplies" exact element={<Supplies />} />
+				<Route
+					path="supplies"
+					exact
+					element={
+						<Supplies
+							activeUser={activeUser}
+							setActiveUser={setActiveUser}
+						/>
+					}
+				/>
 			</Routes>
 		</div>
 	);

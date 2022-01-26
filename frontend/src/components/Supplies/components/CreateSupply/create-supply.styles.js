@@ -1,11 +1,7 @@
 import styled from "styled-components";
-import {
-	darkgold,
-	darkOrange,
-	outerBackgroundColor,
-} from "../../../../App.variables";
+import { outerBackgroundColor } from "../../../../App.variables";
 
-export const StyledCreationForm = styled.div`
+export const StyledCreateSupply = styled.div`
 	width: 85%;
 	background-color: transparent;
 	color: white;
@@ -14,26 +10,26 @@ export const StyledCreationForm = styled.div`
 	border-radius: 10px;
 	padding: 0.5rem;
 
-	.creation-form {
+	.create-supply {
 		font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 
+		background-color: inherit;
 		display: flex;
 		flex-direction: column;
-		background-color: inherit;
 
 		&-row {
+			background-color: inherit;
 			display: flex;
 			flex-direction: row;
 			justify-content: center;
-			background-color: inherit;
 			margin-bottom: 2px;
 			align-items: center;
 
 			&-label {
+				background-color: inherit;
 				display: flex;
 				flex-direction: column;
-				width: 40%;
-				background-color: inherit;
+				width: 20%;
 			}
 
 			&-input {
@@ -47,11 +43,12 @@ export const StyledCreationForm = styled.div`
 			}
 
 			&-btn {
-				margin: 10px auto;
 				width: 30%;
+				margin: 10px auto;
+
 				border: none;
 				padding: 0.5rem;
-				border-radius: 3px;
+				border-radius: 5px;
 				color: black;
 				font-weight: bold;
 				margin: 5px;
@@ -71,24 +68,15 @@ export const StyledCreationForm = styled.div`
 		}
 	}
 
-	.cancel {
-		background-color: ${outerBackgroundColor};
-		border: 1px solid red;
-		color: red;
+	.unit-type-info {
+		display: flex;
+		flex-direction: column;
+		/* right: 0; */
 
-		:hover {
-			cursor: pointer;
-			background-color: red;
-			color: black;
+		&-display {
+			display: flex;
+			flex-direction: row;
 		}
-	}
-
-	.password-info {
-		font-size: 12px;
-		text-align: right;
-		background-color: inherit;
-		margin-top: 3px;
-		margin-bottom: 3px;
 	}
 
 	.error-div {
@@ -99,9 +87,5 @@ export const StyledCreationForm = styled.div`
 		justify-content: center;
 		margin: 15px;
 		border-radius: 5px;
-	}
-
-	#btn-row {
-		margin-top: 10px;
 	}
 `;
