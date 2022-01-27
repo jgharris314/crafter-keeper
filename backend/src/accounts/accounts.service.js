@@ -18,6 +18,7 @@ async function update(account_id, newAccountData) {
 	return res[0];
 }
 function listAccountById(id) {
+	// console.log(id);
 	return knex("users")
 		.select("username", "first_name", "last_name")
 		.where({ user_id: id })
@@ -39,6 +40,13 @@ function listAccountByEmail(email) {
 		.select("email")
 		.where({ email: email })
 		.then((res) => res[0]);
+}
+
+function update(user_id, account) {
+	return knex("users")
+		.update(account, "*")
+		.where({ user_id })
+		.then((e) => e[0]);
 }
 
 module.exports = {

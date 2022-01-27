@@ -98,10 +98,38 @@ async function listAccountByUsername(req, res, next) {
 		  });
 }
 
+async function accountExists(req, res, next) {
+	const { user_id } = req.params;
+	console.log(user_id);
+	const account = await service.listAccountById(Number(user_id));
+
+	if (account) {
+		res.locals.account = account;
+		return next();
+	}
+	return next({
+		status: 404,
+		message: `Account ID ${user_id} cannot be found`,
+	});
+}
+
+async function updateAccount(req, res, next) {
+	const updateData = req.body.data;
+	const { user_id } = req.params;
+
+	const data = await service.update(Number(user_id), updateData);
+
+	res.json({ data });
+}
+
 module.exports = {
 	authorize: [asyncErrorBoundary(authorize)],
 	create: [hasProperties, asyncErrorBoundary(create)],
 	list,
 	listAccountById,
 	listAccountByUsername: [asyncErrorBoundary(listAccountByUsername)],
+	update: [
+		asyncErrorBoundary(accountExists),
+		asyncErrorBoundary(updateAccount),
+	],
 };

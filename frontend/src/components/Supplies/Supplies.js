@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyledSupplies } from "./supplies.styles";
 import SupplyRow from "./components/SupplyRow/SupplyRow";
 import CreateSupply from "./components/CreateSupply/CreateSupply";
+import { updateAccount } from "../../utils/api";
 const Supplies = ({ activeUser, setActiveUser }) => {
 	const [supplies, setSupplies] = useState([]);
 	const [createSupplyMode, setCreateSupplyMode] = useState(false);
@@ -15,18 +16,28 @@ const Supplies = ({ activeUser, setActiveUser }) => {
 	//Lock and unlock supplies to add to inventory
 	//Save button that updates the db
 
-	window.addEventListener("beforeunload", (e) => {
+	window.addEventListener("beforeunload", async (e) => {
 		e.preventDefault();
-		// setActiveUser({ ...activeUser });
-		return (e.returnValue = "Are you sure you want to close?");
+		const abortController = new AbortController();
+		const updatedUser = { ...activeUser };
+		delete updatedUser["cookie"];
+		delete updatedUser["loggedin"];
+		if (activeUser.user_id) {
+			await updateAccount(
+				activeUser.user_id,
+				updatedUser,
+				abortController.signal
+			);
+		}
+		return null;
 	});
 	return (
 		<StyledSupplies>
 			Supplies
 			<br />
 			{supplies
-				? supplies.map((supply) => {
-						return <SupplyRow supply={supply} />;
+				? supplies.map((supply, index) => {
+						return <SupplyRow supply={supply} key={index} />;
 				  })
 				: null}
 			{createSupplyMode ? (

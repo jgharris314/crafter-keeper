@@ -68,3 +68,15 @@ export async function login(account, signal) {
 	};
 	return await fetchJson(url, options);
 }
+
+export async function updateAccount(user_id, account, signal) {
+	const url = `${API_BASE_URL}/accounts/update/${user_id}`;
+	const options = {
+		method: "PUT",
+		headers,
+		body: JSON.stringify({ data: account }),
+		signal,
+	};
+
+	return await fetchJson(url, options);
+}

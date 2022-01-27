@@ -7,17 +7,23 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Orders from "./components/Orders/Orders";
 import Supplies from "./components/Supplies/Supplies";
 import Plans from "./components/Plans/Plans";
+import { updateAccount } from "./utils/api";
 function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
 
-	const defaultUser = { username: "guest" };
+	const defaultUser = { username: "guest", cookie: "" };
 
-	const [activeUser, setActiveUser] = useState(defaultUser);
+	const [activeUser, setActiveUser] = useState({ ...defaultUser });
+
 	useEffect(() => {
-		const loggedInUser = localStorage.getItem("activeUser");
+		let loggedInUser;
+		if (localStorage.getItem("activeUser")) {
+			loggedInUser = JSON.parse(localStorage.getItem("activeUser"));
+		}
 		const today = new Date(Date.now());
-		if (loggedInUser) {
-			const foundUser = JSON.parse(loggedInUser);
+		if (loggedInUser && loggedInUser.username !== "guest") {
+			const foundUser = loggedInUser;
+
 			if (foundUser.cookie.expires > today.toISOString()) {
 				return setActiveUser(foundUser);
 			} else {
@@ -27,11 +33,35 @@ function App() {
 		}
 	}, []);
 
-	const handleSignOut = () => {
+	const handleSignOut = async () => {
+		const abortController = new AbortController();
+		const updatedUser = activeUser;
+		delete updatedUser["cookie"];
+		delete updatedUser["loggedin"];
+		await updateAccount(
+			Number(activeUser.user_id),
+			updatedUser,
+			abortController.signal
+		);
 		setActiveUser(defaultUser);
 		localStorage.setItem("activeUser", "");
 		window.location.href = "/";
 	};
+
+	// window.addEventListener("beforeunload", async (e) => {
+	// 	e.preventDefault();
+	// 	const abortController = new AbortController();
+	// 	const updatedUser = activeUser;
+	// 	delete updatedUser["cookie"];
+	// 	delete updatedUser["loggedin"];
+	// 	await updateAccount(
+	// 		Number(activeUser.user_id),
+	// 		updatedUser,
+	// 		abortController.signal
+	// 	);
+	// 	localStorage.setItem("activeUser", "");
+	// });
+
 	return (
 		<div className="App">
 			{activeUser.username !== "guest" && (

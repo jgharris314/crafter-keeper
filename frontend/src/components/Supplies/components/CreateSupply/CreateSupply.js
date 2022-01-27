@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyledCreateSupply } from "./create-supply.styles";
+import { updateAccount } from "../../../../utils/api";
 const CreateSupply = ({ activeUser, setActiveUser }) => {
 	const defaultFormData = { supplyName: "", quantity: 0, unitType: "X" };
 	const [formData, setFormData] = useState(defaultFormData);
@@ -12,20 +13,34 @@ const CreateSupply = ({ activeUser, setActiveUser }) => {
 		);
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(formData);
 		if (!validateUniqueSupply(formData)) {
 			setActiveUser({
 				...activeUser,
 				supplies: { data: [...activeUser.supplies.data, formData] },
 			});
+			const abortController = new AbortController();
+			const updatedUser = activeUser;
+			delete updatedUser["cookie"];
+			delete updatedUser["loggedin"];
+			await updateAccount(
+				Number(updatedUser.user_id),
+				updatedUser,
+				abortController.signal
+			);
+
 			setFormData(defaultFormData);
 			window.alert("Created");
 		} else {
 			setError({ message: "Supply already in inventory" });
 		}
 	};
+
+	window.addEventListener("beforeunload", (e) => {
+		e.preventDefault();
+		localStorage.setItem("activeUser", JSON.stringify(activeUser));
+	});
 
 	const handleChange = ({ target }) => {
 		const value =

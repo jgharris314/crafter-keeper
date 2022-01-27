@@ -8,6 +8,8 @@ const router = require("express").Router();
 const methodNotAllowed = require("../errors/methodNotAllowed");
 const controller = require("./accounts.controller");
 
+router.route("/update/:user_id").put(controller.update).all(methodNotAllowed);
+
 router.route("/authorize").post(controller.authorize).all(methodNotAllowed);
 
 router
