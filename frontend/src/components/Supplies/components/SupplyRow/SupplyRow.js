@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyledSupplyRow } from "./supply-row.styles";
+
 const SupplyRow = ({ supply, activeUser, setActiveUser }) => {
-	const handleRemoveItem = (supplyName) => {
+	const [rerender, setRerender] = useState(false);
+	useEffect(() => {}, [rerender]);
+	const handleRemoveItem = async (supplyName) => {
 		if (
 			window.confirm(
 				"Do you really want to delete this item? This cannot be undone."
@@ -20,19 +23,13 @@ const SupplyRow = ({ supply, activeUser, setActiveUser }) => {
 		}
 	};
 
-	const handleIncrementQuantity = (increment) => {
-		console.log(increment);
-		// setActiveUser({
-		// 	...activeUser,
-		// 	supplies: {
-		// 		data: [
-		// 			...activeUser.supplies.data,
-		// 			increment === "-"
-		// 				? (activeUser.supplies.data.quantity -= 1)
-		// 				: (activeUser.supplies.data.quantity += 1),
-		// 		],
-		// 	},
-		// });
+	const handleIncrementQuantity = (increment, supply) => {
+		if (increment === "-") {
+			supply.quantity -= 1;
+		} else {
+			supply.quantity += 1;
+		}
+		setRerender(!rerender);
 	};
 	return (
 		<StyledSupplyRow key={supply.supplyName}>
@@ -40,13 +37,17 @@ const SupplyRow = ({ supply, activeUser, setActiveUser }) => {
 				<div className="supply-item">{supply.supplyName}</div>
 				<div
 					className="increment-btn"
-					value="-"
-					onClick={(target) => handleIncrementQuantity(target.value)}
+					onClick={() => handleIncrementQuantity("-", supply)}
 				>
 					-
 				</div>
 				<div className="supply-item">{supply.quantity}</div>
-				<div className="increment-btn">+</div>
+				<div
+					className="increment-btn"
+					onClick={() => handleIncrementQuantity("+", supply)}
+				>
+					+
+				</div>
 				<div className="supply-item">
 					{supply.unitType === "X" ? null : supply.unitType}
 				</div>

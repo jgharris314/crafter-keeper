@@ -6,15 +6,12 @@ import { updateAccount } from "../../utils/api";
 const Supplies = ({ activeUser, setActiveUser }) => {
 	const [supplies, setSupplies] = useState([]);
 	const [createSupplyMode, setCreateSupplyMode] = useState(false);
-	//Load supplies in to state
 
 	useEffect(() => {
 		if (activeUser.supplies) {
 			setSupplies(activeUser.supplies.data);
 		}
 	}, [activeUser.supplies]);
-	//Lock and unlock supplies to add to inventory
-	//Save button that updates the db
 
 	window.addEventListener("beforeunload", async (e) => {
 		e.preventDefault();
@@ -31,10 +28,20 @@ const Supplies = ({ activeUser, setActiveUser }) => {
 		}
 		return null;
 	});
+
+	window.addEventListener("beforeunload", (e) => {
+		e.preventDefault();
+		localStorage.setItem("activeUser", JSON.stringify(activeUser));
+	});
 	return (
 		<StyledSupplies>
-			Supplies
+			<h1>Supplies</h1>
 			<br />
+			<div className="supply-categories">
+				<div className="supply-categories-item">Name</div>
+				<div className="supply-categories-item">Quantity</div>
+				<div className="supply-categories-item">Unit</div>
+			</div>
 			{supplies
 				? supplies.map((supply, index) => {
 						return (
@@ -53,12 +60,24 @@ const Supplies = ({ activeUser, setActiveUser }) => {
 					setActiveUser={setActiveUser}
 				/>
 			) : null}
-			<button onClick={() => setCreateSupplyMode(!createSupplyMode)}>
-				{createSupplyMode ? "X" : "Add new supply"}
-			</button>
-			<button onClick={() => (window.location.href = "/dashboard")}>
-				Return to Dashboard{" "}
-			</button>
+			<div className="btn-row">
+				<div
+					onClick={() => setCreateSupplyMode(!createSupplyMode)}
+					className={
+						createSupplyMode
+							? "not-create-mode-btn"
+							: "create-mode-btn"
+					}
+				>
+					{createSupplyMode ? "X" : "Add new supply"}
+				</div>
+				<div
+					className="return"
+					onClick={() => (window.location.href = "/dashboard")}
+				>
+					Return to Dashboard{" "}
+				</div>
+			</div>
 		</StyledSupplies>
 	);
 };
