@@ -69,13 +69,21 @@ export const StyledCreateSupply = styled.div`
 	}
 
 	.unit-type-info {
+		margin-left: 40%;
+		margin-top: 5px;
 		display: flex;
 		flex-direction: column;
-		/* right: 0; */
+		background-color: rgba(255, 255, 255, 0.2);
+		width: 10%;
+		border-radius: 25px;
 
 		&-display {
 			display: flex;
 			flex-direction: row;
+			background-color: rgba(255, 255, 255, 0.2);
+			width: 30%;
+			justify-content: center;
+			margin-left: 35%;
 		}
 	}
 

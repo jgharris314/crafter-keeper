@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-// import { useLocation } from "react-router-dom";
 import { StyledLoginForm } from "./login-form.styles";
 import { login } from "../../../../utils/api";
 
 const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 	const initialFormData = { username: "", password: "" };
-	// const history = useLocation();
+
 	const [formData, setFormData] = useState({ ...initialFormData });
 	const [error, setError] = useState();
 	async function handleLogin(e) {
@@ -54,7 +53,6 @@ const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 					<input
 						className="login-form-row-input"
 						type="text"
-						// pattern="(?=.*[a-z])(?=.*[A-Z].{3,})"
 						name="username"
 						id="username"
 						onChange={handleChange}
@@ -71,7 +69,6 @@ const LoginForm = ({ loggedIn, setLoggedIn, activeUser, setActiveUser }) => {
 						name="password"
 						id="password"
 						onChange={handleChange}
-						// pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
 					/>
 				</div>
 				<div className="login-form-row" id="btn-row">

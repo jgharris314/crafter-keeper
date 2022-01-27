@@ -51,10 +51,6 @@ const CreationForm = () => {
 			[target.name]: value,
 		});
 	};
-	const handleCancel = () => {
-		setFormData({ ...initialFormData });
-		window.location.href = "/";
-	};
 
 	return (
 		<StyledCreationForm>
@@ -119,12 +115,6 @@ const CreationForm = () => {
 					>
 						Create
 					</button>
-					{/* <button
-						className="creation-form-row-btn cancel"
-						onClick={handleCancel}
-					>
-						Cancel
-					</button> */}
 				</div>
 			</form>
 		</StyledCreationForm>

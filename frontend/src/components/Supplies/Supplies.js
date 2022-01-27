@@ -37,7 +37,14 @@ const Supplies = ({ activeUser, setActiveUser }) => {
 			<br />
 			{supplies
 				? supplies.map((supply, index) => {
-						return <SupplyRow supply={supply} key={index} />;
+						return (
+							<SupplyRow
+								activeUser={activeUser}
+								setActiveUser={setActiveUser}
+								supply={supply}
+								key={index}
+							/>
+						);
 				  })
 				: null}
 			{createSupplyMode ? (

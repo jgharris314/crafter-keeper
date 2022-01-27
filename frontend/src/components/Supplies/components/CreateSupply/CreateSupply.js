@@ -44,7 +44,11 @@ const CreateSupply = ({ activeUser, setActiveUser }) => {
 
 	const handleChange = ({ target }) => {
 		const value =
-			target.name === "quantity" ? Number(target.value) : target.value;
+			target.name === "quantity"
+				? Number(target.value)
+				: target.name === "supplyName"
+				? target.value.charAt(0).toUpperCase() + target.value.slice(1)
+				: target.value;
 		setFormData({
 			...formData,
 			[target.name]: value,
@@ -114,7 +118,7 @@ const CreateSupply = ({ activeUser, setActiveUser }) => {
 					/>
 				</div>
 				{unitTypeInfo ? (
-					<div className="unit-type-infor-display">
+					<div className="unit-type-info-display">
 						lbs, yds, cm, etc. Defaults to X for a plain count
 					</div>
 				) : null}
