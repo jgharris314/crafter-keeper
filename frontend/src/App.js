@@ -48,20 +48,6 @@ function App() {
 		window.location.href = "/";
 	};
 
-	// window.addEventListener("beforeunload", async (e) => {
-	// 	e.preventDefault();
-	// 	const abortController = new AbortController();
-	// 	const updatedUser = activeUser;
-	// 	delete updatedUser["cookie"];
-	// 	delete updatedUser["loggedin"];
-	// 	await updateAccount(
-	// 		Number(activeUser.user_id),
-	// 		updatedUser,
-	// 		abortController.signal
-	// 	);
-	// 	localStorage.setItem("activeUser", "");
-	// });
-
 	return (
 		<div className="App">
 			{activeUser.username !== "guest" && (
@@ -94,7 +80,16 @@ function App() {
 					exact
 					element={<Dashboard activeUser={activeUser} />}
 				/>
-				<Route path="plans" exact element={<Plans />} />
+				<Route
+					path="plans"
+					exact
+					element={
+						<Plans
+							activeUser={activeUser}
+							setActiveUser={setActiveUser}
+						/>
+					}
+				/>
 				<Route path="orders" exact element={<Orders />} />
 				<Route
 					path="supplies"

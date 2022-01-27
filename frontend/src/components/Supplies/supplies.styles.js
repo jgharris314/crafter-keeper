@@ -4,7 +4,6 @@ export const StyledSupplies = styled.div`
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	/* justify-content: center; */
 	align-items: center;
 	padding-top: 20px;
 
