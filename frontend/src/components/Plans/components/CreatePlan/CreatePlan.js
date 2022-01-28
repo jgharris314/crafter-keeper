@@ -11,7 +11,7 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 	};
 	const [formData, setFormData] = useState(defaultFormData);
 	const [error, setError] = useState();
-	const [addSupply, setAddSupply] = useState(false);
+	const [addSupply, setAddSupply] = useState(true);
 	const [neededSupplies, setNeededSupplies] = useState([]);
 
 	const validateUniquePlan = (newPlan) => {
@@ -70,69 +70,80 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 	return (
 		<StyledCreatePlan>
 			{error ? <div className="error-div"> {error.message}</div> : null}
-			Create a New Plan
-			<div>
+
+			<div className="supply-list">
 				<h3>Supplies Needed</h3>
 				{neededSupplies.map((supply, index) => {
-					return <div>{supply.supplyName}</div>;
+					return (
+						<div>
+							{supply.amountNeeded ? supply.amountNeeded : 0}{" "}
+							{supply.unitType.toLowerCase()} {supply.supplyName}
+						</div>
+					);
 				})}
 			</div>
-			<form onSubmit={(e) => handleSubmit(e)}>
-				<div className="create-plan-row">
-					<label className="create-plan-row-label" htmlFor="planName">
-						Plan Name
-					</label>
-					<input
-						className="create-plan-row-input"
-						type="text"
-						name="planName"
-						id="planName"
-						value={formData.planName}
-						onChange={handleChange}
-						required
-					/>
-				</div>
-				<div className="create-plan-row">
-					<label
-						className="create-plan-row-label"
-						htmlFor="estimatedTime"
-					>
-						Estimated Time
-					</label>
-					<input
-						className="create-plan-row-input"
-						type="text"
-						name="estimatedTime"
-						id="estimatedTime"
-						value={formData.estimatedTime}
-						onChange={handleChange}
-						required
-					/>
-				</div>
-				{addSupply ? (
-					<AddSupply
-						activeUser={activeUser}
-						neededSupplies={neededSupplies}
-						setNeededSupplies={setNeededSupplies}
-					/>
-				) : null}
-				<div className="create-supply-row" id="btn-row">
-					<button
-						className="create-supply-row-btn submit"
-						onClick={() => setAddSupply(!addSupply)}
-					>
-						{addSupply ? "X" : "Add Supply"}
-					</button>
-				</div>
-				<div className="create-supply-row" id="btn-row">
-					<button
-						className="create-supply-row-btn submit"
-						type="submit"
-					>
-						Create
-					</button>
-				</div>
-			</form>
+			<div className="plan-form">
+				<form onSubmit={(e) => handleSubmit(e)}>
+					<div className="create-plan-row">
+						<label
+							className="create-plan-row-label"
+							htmlFor="planName"
+						>
+							Plan Name
+						</label>
+						<input
+							className="create-plan-row-input"
+							type="text"
+							name="planName"
+							id="planName"
+							value={formData.planName}
+							onChange={handleChange}
+							required
+						/>
+					</div>
+					<div className="create-plan-row">
+						<label
+							className="create-plan-row-label"
+							htmlFor="estimatedTime"
+						>
+							Estimated Time
+						</label>
+						<input
+							className="create-plan-row-input"
+							type="text"
+							name="estimatedTime"
+							id="estimatedTime"
+							value={formData.estimatedTime}
+							onChange={handleChange}
+							required
+						/>
+					</div>
+					{addSupply ? (
+						<AddSupply
+							activeUser={activeUser}
+							neededSupplies={neededSupplies}
+							setNeededSupplies={setNeededSupplies}
+						/>
+					) : null}
+					<div className="create-supply-row" id="btn-row">
+						<button
+							className="create-supply-row-btn toggle"
+							onClick={() => setAddSupply(!addSupply)}
+						>
+							{addSupply
+								? "Close add supply window"
+								: "Add Supply"}
+						</button>
+
+						<button
+							className="create-supply-row-btn create-plan-btn"
+							type="submit"
+						>
+							Create Plan
+						</button>
+					</div>
+				</form>
+			</div>
 		</StyledCreatePlan>
 	);
 };

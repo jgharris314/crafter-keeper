@@ -40,7 +40,6 @@ const Supplies = ({ activeUser, setActiveUser }) => {
 			<div className="supply-categories">
 				<div className="supply-categories-item">Name</div>
 				<div className="supply-categories-item">Quantity</div>
-				<div className="supply-categories-item">Unit</div>
 			</div>
 			{supplies
 				? supplies.map((supply, index) => {

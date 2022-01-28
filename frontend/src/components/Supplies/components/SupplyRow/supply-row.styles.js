@@ -9,9 +9,14 @@ export const StyledSupplyRow = styled.div`
 
 	.supply-section {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+
+		&-row {
+			display: flex;
+			flex-direction: row;
+		}
 	}
 
 	.supply-item {
@@ -29,6 +34,20 @@ export const StyledSupplyRow = styled.div`
 		background-color: ${darkgold};
 		width: 25px;
 		height: 25px;
-		margin-top: 5px;
+		margin: 2px;
+	}
+
+	.btn-row {
+		margin-top: 0px;
+		justify-content: right;
+		display: flex;
+		flex-direction: row;
+	}
+
+	.remove-btn {
+		background-color: red;
+		width: 25px;
+		height: 25px;
+		margin: 2px;
 	}
 `;

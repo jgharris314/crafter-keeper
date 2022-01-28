@@ -13,7 +13,7 @@ export const StyledSupplies = styled.div`
 		justify-content: space-around;
 		align-items: center;
 		margin-top: 15px;
-		width: 30%;
+		width: 100%;
 	}
 	.create-mode-btn {
 		background-color: ${outerBackgroundColor};
@@ -49,8 +49,8 @@ export const StyledSupplies = styled.div`
 	.supply-categories {
 		display: flex;
 		flex-direction: row;
-		justify-content: space-evenly;
-		width: 375px;
+		justify-content: space-between;
+		width: 175px;
 
 		&-item {
 			font-size: 20px;

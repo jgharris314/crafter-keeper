@@ -6,11 +6,22 @@ const AddSupply = ({ activeUser, neededSupplies, setNeededSupplies }) => {
 	useEffect(() => {}, [rerender]);
 	const [formData, setFormData] = useState();
 	const [error, setError] = useState();
+
 	const validateUniqueSupply = (newSupply) => {
 		return neededSupplies.find(
 			({ supplyName }) => supplyName === newSupply.supplyName
 		);
 	};
+
+	const findSupply = (newSupply) => {
+		if (!newSupply) {
+			setError({ message: "Please select a valid supply" });
+		}
+		return activeUser.supplies.data.find(
+			({ supplyName }) => supplyName === newSupply.supplyName
+		);
+	};
+
 	const handleChange = ({ target }) => {
 		const value =
 			target.name === "amountNeeded"
@@ -24,9 +35,15 @@ const AddSupply = ({ activeUser, neededSupplies, setNeededSupplies }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(formData);
+		const supplyInfo = findSupply(formData);
+		const editedFormData = {
+			supplyName: formData.supplyName,
+			amountNeeded: formData.amountNeeded,
+			unitType: supplyInfo.unitType,
+		};
+
 		if (!validateUniqueSupply(formData)) {
-			setNeededSupplies([...neededSupplies, formData]);
+			setNeededSupplies([...neededSupplies, editedFormData]);
 			setError();
 			setRerender(!rerender);
 		} else {
@@ -37,24 +54,30 @@ const AddSupply = ({ activeUser, neededSupplies, setNeededSupplies }) => {
 	return (
 		<StyledAddSupply>
 			{error ? <div className="error-div"> {error.message}</div> : null}
-			<div className="create-plan-row supply">
-				<label className="create-plan-row-label" htmlFor="supplyName">
+			<div className="add-supply-row supply">
+				<label className="add-supply-row-label" htmlFor="supplyName">
 					Supply Name
 				</label>
 				<select name="supplyName" onChange={handleChange}>
 					{activeUser.supplies.data.map((supply, index) => {
 						return (
-							<option value={supply.supplyName}>
+							<option
+								key={supply.supplyName}
+								value={supply.supplyName}
+							>
 								{supply.supplyName}
 							</option>
 						);
 					})}
+					<option selected value={"default"}>
+						Select supply
+					</option>
 				</select>
-				<label className="create-plan-row-label" htmlFor="amountNeeded">
+				<label className="add-supply-row-label" htmlFor="amountNeeded">
 					Amount Needed
 				</label>
 				<input
-					className="create-plan-row-input"
+					className="add-supply-row-input"
 					type="number"
 					name="amountNeeded"
 					id="amountNeeded"
@@ -63,12 +86,12 @@ const AddSupply = ({ activeUser, neededSupplies, setNeededSupplies }) => {
 					required
 				/>
 			</div>
-			<div className="create-plan-row" id="btn-row">
+			<div className="add-supply-row">
 				<button
-					className="create-plan-row-btn submit"
+					className="add-supply-row-btn add-supply"
 					onClick={(e) => handleSubmit(e)}
 				>
-					Create Supply
+					Add Supply
 				</button>
 			</div>
 		</StyledAddSupply>

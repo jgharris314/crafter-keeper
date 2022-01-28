@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { darkgold, outerBackgroundColor } from "../../App.variables";
 export const StyledPlans = styled.div`
+	width: 100%;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;

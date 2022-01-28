@@ -34,28 +34,33 @@ const SupplyRow = ({ supply, activeUser, setActiveUser }) => {
 	return (
 		<StyledSupplyRow key={supply.supplyName}>
 			<div className="supply-section">
-				<div className="supply-item">{supply.supplyName}</div>
-				<div
-					className="increment-btn"
-					onClick={() => handleIncrementQuantity("-", supply)}
-				>
-					-
+				<div className="supply-section-row">
+					<div className="supply-item">{supply.supplyName}</div>
+
+					<div className="supply-item">
+						{supply.quantity} {supply.unitType.toLowerCase()}
+					</div>
 				</div>
-				<div className="supply-item">{supply.quantity}</div>
-				<div
-					className="increment-btn"
-					onClick={() => handleIncrementQuantity("+", supply)}
-				>
-					+
-				</div>
-				<div className="supply-item">
-					{supply.unitType === "X" ? null : supply.unitType}
-				</div>
-				<div
-					className="remove-button"
-					onClick={() => handleRemoveItem(supply.supplyName)}
-				>
-					X
+				<div className="btn-row">
+					<div
+						className="increment-btn"
+						onClick={() => handleIncrementQuantity("-", supply)}
+					>
+						-
+					</div>
+					<div
+						className="increment-btn"
+						onClick={() => handleIncrementQuantity("+", supply)}
+					>
+						+
+					</div>
+
+					<div
+						className="remove-btn"
+						onClick={() => handleRemoveItem(supply.supplyName)}
+					>
+						X
+					</div>
 				</div>
 			</div>
 		</StyledSupplyRow>
