@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { StyledCreatePlan } from "./create-plan.styles";
 import { updateAccount } from "../../../../utils/api";
+import AddSupply from "./components/AddSupply/AddSupply";
+
 const CreatePlan = ({ activeUser, setActiveUser }) => {
-	const defaultFormData = { name: "", suppliesNeeded: [], estimatedTime: 0 };
+	const defaultFormData = {
+		planName: "",
+		suppliesNeeded: [],
+		estimatedTime: 0,
+	};
 	const [formData, setFormData] = useState(defaultFormData);
 	const [error, setError] = useState();
+	const [addSupply, setAddSupply] = useState(false);
+	const [neededSupplies, setNeededSupplies] = useState([]);
 
 	const validateUniquePlan = (newPlan) => {
 		return activeUser.plans.data.find(
@@ -27,10 +35,16 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
 		if (!validateUniquePlan(formData)) {
+			const formedPlan = {
+				planName: formData.planName,
+				suppliesNeeded: neededSupplies,
+				estimatedTime: formData.estimatedTime,
+			};
 			setActiveUser({
 				...activeUser,
-				plans: { data: [...activeUser.plans.data, formData] },
+				plans: { data: [...activeUser.plans.data, formedPlan] },
 			});
 			const abortController = new AbortController();
 			const updatedUser = activeUser;
@@ -57,6 +71,12 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 		<StyledCreatePlan>
 			{error ? <div className="error-div"> {error.message}</div> : null}
 			Create a New Plan
+			<div>
+				<h3>Supplies Needed</h3>
+				{neededSupplies.map((supply, index) => {
+					return <div>{supply.supplyName}</div>;
+				})}
+			</div>
 			<form onSubmit={(e) => handleSubmit(e)}>
 				<div className="create-plan-row">
 					<label className="create-plan-row-label" htmlFor="planName">
@@ -71,6 +91,38 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 						onChange={handleChange}
 						required
 					/>
+				</div>
+				<div className="create-plan-row">
+					<label
+						className="create-plan-row-label"
+						htmlFor="estimatedTime"
+					>
+						Estimated Time
+					</label>
+					<input
+						className="create-plan-row-input"
+						type="text"
+						name="estimatedTime"
+						id="estimatedTime"
+						value={formData.estimatedTime}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				{addSupply ? (
+					<AddSupply
+						activeUser={activeUser}
+						neededSupplies={neededSupplies}
+						setNeededSupplies={setNeededSupplies}
+					/>
+				) : null}
+				<div className="create-supply-row" id="btn-row">
+					<button
+						className="create-supply-row-btn submit"
+						onClick={() => setAddSupply(!addSupply)}
+					>
+						{addSupply ? "X" : "Add Supply"}
+					</button>
 				</div>
 				<div className="create-supply-row" id="btn-row">
 					<button
