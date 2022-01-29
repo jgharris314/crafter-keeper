@@ -100,7 +100,6 @@ async function listAccountByUsername(req, res, next) {
 
 async function accountExists(req, res, next) {
 	const { user_id } = req.params;
-	console.log(user_id);
 	const account = await service.listAccountById(Number(user_id));
 
 	if (account) {

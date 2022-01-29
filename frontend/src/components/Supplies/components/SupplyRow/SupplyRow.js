@@ -4,7 +4,7 @@ import { StyledSupplyRow } from "./supply-row.styles";
 const SupplyRow = ({ supply, activeUser, setActiveUser }) => {
 	const [rerender, setRerender] = useState(false);
 	useEffect(() => {}, [rerender]);
-	const handleRemoveItem = async (supplyName) => {
+	const handleRemoveItem = (supplyName) => {
 		if (
 			window.confirm(
 				"Do you really want to delete this item? This cannot be undone."

@@ -10,13 +10,13 @@ async function create(account) {
 	const res = await knex("users").insert(account, "*");
 	return res[0];
 }
-async function update(account_id, newAccountData) {
-	const res = await knex("users")
-		.select("*")
-		.where({ account_id })
-		.update(newAccountData, "*");
-	return res[0];
-}
+// async function update(account_id, newAccountData) {
+// 	const res = await knex("users")
+// 		.select("*")
+// 		.where({ account_id })
+// 		.update(newAccountData, "*");
+// 	return res[0];
+// }
 function listAccountById(id) {
 	// console.log(id);
 	return knex("users")

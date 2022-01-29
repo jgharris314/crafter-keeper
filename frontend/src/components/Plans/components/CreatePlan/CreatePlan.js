@@ -14,6 +14,20 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 	const [addSupply, setAddSupply] = useState(true);
 	const [neededSupplies, setNeededSupplies] = useState([]);
 
+	const handleRemoveItem = (supplyName) => {
+		if (
+			window.confirm(
+				"Do you really want to delete this item? This cannot be undone."
+			)
+		) {
+			setNeededSupplies([
+				...neededSupplies.filter((supply, index) => {
+					return supply.supplyName !== supplyName;
+				}),
+			]);
+		}
+	};
+
 	const validateUniquePlan = (newPlan) => {
 		return activeUser.plans.data.find(
 			({ planName }) => planName === newPlan.planName
@@ -77,7 +91,14 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 					return (
 						<div>
 							{supply.amountNeeded ? supply.amountNeeded : 0}{" "}
-							{supply.unitType.toLowerCase()} {supply.supplyName}
+							{supply.unitType.toLowerCase()} {supply.supplyName}{" "}
+							<button
+								onClick={() =>
+									handleRemoveItem(supply.supplyName)
+								}
+							>
+								X
+							</button>
 						</div>
 					);
 				})}
@@ -118,23 +139,14 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 							required
 						/>
 					</div>
-					{addSupply ? (
-						<AddSupply
-							activeUser={activeUser}
-							neededSupplies={neededSupplies}
-							setNeededSupplies={setNeededSupplies}
-						/>
-					) : null}
-					<div className="create-supply-row" id="btn-row">
-						<button
-							className="create-supply-row-btn toggle"
-							onClick={() => setAddSupply(!addSupply)}
-						>
-							{addSupply
-								? "Close add supply window"
-								: "Add Supply"}
-						</button>
 
+					<AddSupply
+						activeUser={activeUser}
+						neededSupplies={neededSupplies}
+						setNeededSupplies={setNeededSupplies}
+					/>
+
+					<div className="create-supply-row" id="btn-row">
 						<button
 							className="create-supply-row-btn create-plan-btn"
 							type="submit"

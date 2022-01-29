@@ -11,13 +11,11 @@ export const StyledCreatePlan = styled.div`
 
 	.create-plan {
 		font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-
 		background-color: inherit;
 		display: flex;
 		flex-direction: column;
 
 		&-row {
-			/* background-color: inherit; */
 			display: flex;
 			flex-direction: row;
 			justify-content: center;

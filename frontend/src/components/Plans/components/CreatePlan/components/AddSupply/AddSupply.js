@@ -88,7 +88,7 @@ const AddSupply = ({ activeUser, neededSupplies, setNeededSupplies }) => {
 			</div>
 			<div className="add-supply-row">
 				<button
-					className="add-supply-row-btn add-supply"
+					className="add-supply-row-btn add-supply-btn"
 					onClick={(e) => handleSubmit(e)}
 				>
 					Add Supply

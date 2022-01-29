@@ -46,4 +46,8 @@ export const StyledPlans = styled.div`
 			color: black;
 		}
 	}
+
+	.create-plan-container {
+		width: 85%;
+	}
 `;

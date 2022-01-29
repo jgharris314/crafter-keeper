@@ -43,7 +43,6 @@ export const StyledAddSupply = styled.div`
 			&-btn {
 				width: 30%;
 				margin: 10px auto;
-
 				border: none;
 				padding: 0.5rem;
 				border-radius: 5px;
@@ -64,7 +63,7 @@ export const StyledAddSupply = styled.div`
 		border-radius: 5px;
 	}
 
-	.add-supply {
+	.add-supply-btn {
 		background-color: ${outerBackgroundColor};
 		border: 1px solid lime;
 		color: lime;
