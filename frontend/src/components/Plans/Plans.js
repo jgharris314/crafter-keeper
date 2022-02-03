@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledPlans } from "./plans.styles";
 import CreatePlan from "./components/CreatePlan/CreatePlan";
 import DisplayPlans from "./components/DisplayPlans/DisplayPlans";
 import { updateAccount } from "../../utils/api";
 const Plans = ({ activeUser, setActiveUser }) => {
 	const [createPlanMode, setCreatePlanMode] = useState(false);
-
+	const [updatePlanMode, setUpdatePlanMode] = useState(false);
+	const defaultFormData = {
+		planName: "",
+		suppliesNeeded: [],
+		estimatedTime: 0,
+	};
+	const [updatePlanFormData, setUpdatePlanFormData] = useState();
 	const handleReturnToDashboard = () => {
 		window.location.href = "/dashboard";
 	};
@@ -25,6 +31,19 @@ const Plans = ({ activeUser, setActiveUser }) => {
 		return null;
 	});
 
+	const handleCreatePlanMode = () => {
+		setCreatePlanMode(!createPlanMode);
+		setUpdatePlanMode(false);
+	};
+	// useEffect(() => {
+	// 	if (createPlanMode) {
+	// 		setUpdatePlanMode(false);
+	// 	}
+	// 	if (updatePlanMode) {
+	// 		setCreatePlanMode(false);
+	// 	}
+	// }, [createPlanMode, updatePlanMode]);
+
 	window.addEventListener("beforeunload", (e) => {
 		e.preventDefault();
 		localStorage.setItem("activeUser", JSON.stringify(activeUser));
@@ -35,6 +54,9 @@ const Plans = ({ activeUser, setActiveUser }) => {
 			<DisplayPlans
 				activeUser={activeUser}
 				setActiveUser={setActiveUser}
+				setUpdatePlanMode={setUpdatePlanMode}
+				setCreatePlanMode={setCreatePlanMode}
+				setUpdatePlanFormData={setUpdatePlanFormData}
 			/>
 			{createPlanMode ? (
 				<div className="create-plan-container">
@@ -42,12 +64,25 @@ const Plans = ({ activeUser, setActiveUser }) => {
 					<CreatePlan
 						activeUser={activeUser}
 						setActiveUser={setActiveUser}
+						updatePlanMode={updatePlanMode}
+						stateFormData={defaultFormData}
+					/>
+				</div>
+			) : null}
+			{updatePlanMode ? (
+				<div className="create-plan-container">
+					<h3>Update a plan</h3>
+					<CreatePlan
+						activeUser={activeUser}
+						setActiveUser={setActiveUser}
+						updatePlanMode={updatePlanMode}
+						stateFormData={updatePlanFormData}
 					/>
 				</div>
 			) : null}
 			<div className="btn-row">
 				<div
-					onClick={() => setCreatePlanMode(!createPlanMode)}
+					onClick={() => handleCreatePlanMode()}
 					className={
 						createPlanMode
 							? "not-create-mode-btn"

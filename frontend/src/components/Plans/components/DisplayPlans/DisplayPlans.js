@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { StyledDisplayPlans } from "./display-plans.styles";
 import HoverPlan from "./components/HoverPlan/HoverPlan";
 import { updateAccount } from "../../../../utils/api";
-const DisplayPlans = ({ activeUser, setActiveUser }) => {
+const DisplayPlans = ({
+	activeUser,
+	setActiveUser,
+	setUpdatePlanMode,
+	setUpdatePlanFormData,
+	setCreatePlanMode,
+}) => {
 	const [hoverPlan, setHoverPlan] = useState({});
 
 	const handleRemoveItem = (planName) => {
@@ -24,6 +30,12 @@ const DisplayPlans = ({ activeUser, setActiveUser }) => {
 		}
 	};
 
+	const handleUpdateMode = (plan) => {
+		setUpdatePlanFormData(plan);
+		setUpdatePlanMode(true);
+		setCreatePlanMode(false);
+	};
+
 	return (
 		<StyledDisplayPlans>
 			{activeUser.plans
@@ -41,6 +53,11 @@ const DisplayPlans = ({ activeUser, setActiveUser }) => {
 							>
 								{plan.planName}{" "}
 								<div className="btn-section">
+									<button
+										onClick={() => handleUpdateMode(plan)}
+									>
+										Update
+									</button>
 									<button
 										onClick={() =>
 											handleRemoveItem(plan.planName)

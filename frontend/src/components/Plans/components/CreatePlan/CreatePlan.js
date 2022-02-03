@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledCreatePlan } from "./create-plan.styles";
 import { updateAccount } from "../../../../utils/api";
 import AddSupply from "./components/AddSupply/AddSupply";
 
-const CreatePlan = ({ activeUser, setActiveUser }) => {
-	const defaultFormData = {
-		planName: "",
-		suppliesNeeded: [],
-		estimatedTime: 0,
-	};
-	const [formData, setFormData] = useState(defaultFormData);
+const CreatePlan = ({
+	activeUser,
+	setActiveUser,
+	updatePlanMode,
+	stateFormData,
+}) => {
+	const [formData, setFormData] = useState(stateFormData);
 	const [error, setError] = useState();
 	const [addSupply, setAddSupply] = useState(true);
-	const [neededSupplies, setNeededSupplies] = useState([]);
+	// const [rerender, setRerender] = useState(false);
+	const [neededSupplies, setNeededSupplies] = useState(
+		stateFormData.suppliesNeeded ? stateFormData.suppliesNeeded : []
+	);
 
 	const handleRemoveItem = (supplyName) => {
 		if (
@@ -47,33 +50,100 @@ const CreatePlan = ({ activeUser, setActiveUser }) => {
 		});
 	};
 
+	const handleRemovePlan = (planName) => {
+		if (
+			window.confirm(
+				"Do you really want to delete this item? This cannot be undone."
+			)
+		) {
+			setActiveUser({
+				...activeUser,
+				plans: {
+					data: [
+						...activeUser.plans.data.filter((plan) => {
+							return plan.planName !== planName;
+						}),
+					],
+				},
+			});
+		}
+	};
+	// useEffect(() => {
+	// 	setActiveUser({
+	// 		...activeUser,
+	// 		plans: {
+	// 			data: [...activeUser.plans.data],
+	// 		},
+	// 	});
+	// }, [rerender]);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (!updatePlanMode) {
+			if (!validateUniquePlan(formData)) {
+				const formedPlan = {
+					planName: formData.planName,
+					suppliesNeeded: neededSupplies,
+					estimatedTime: formData.estimatedTime,
+				};
 
-		if (!validateUniquePlan(formData)) {
+				setActiveUser({
+					...activeUser,
+					plans: { data: [...activeUser.plans.data, formedPlan] },
+				});
+				const abortController = new AbortController();
+				const updatedUser = { ...activeUser };
+				delete updatedUser["cookie"];
+				delete updatedUser["loggedin"];
+				await updateAccount(
+					Number(updatedUser.user_id),
+					updatedUser,
+					abortController.signal
+				);
+
+				setFormData({
+					planName: "",
+					suppliesNeeded: [],
+					estimatedTime: 0,
+				});
+				window.alert("Created");
+			} else {
+				setError({ message: "Plan already exists" });
+			}
+		} else {
+			//This section is for updating a plan. The intitial thought was remove the old plan, input a new one.
+			//For whatever reason, this is not working.
+			//Remove works by itself. it's adding the plan back to it that is causing the issue.
+			handleRemovePlan(formData.planName);
+			// setRerender(!rerender);
 			const formedPlan = {
 				planName: formData.planName,
 				suppliesNeeded: neededSupplies,
 				estimatedTime: formData.estimatedTime,
 			};
-			setActiveUser({
-				...activeUser,
-				plans: { data: [...activeUser.plans.data, formedPlan] },
-			});
-			const abortController = new AbortController();
-			const updatedUser = activeUser;
-			delete updatedUser["cookie"];
-			delete updatedUser["loggedin"];
-			await updateAccount(
-				Number(updatedUser.user_id),
-				updatedUser,
-				abortController.signal
-			);
+			console.log(activeUser.plans.data);
+			setTimeout(async () => {
+				setActiveUser({
+					...activeUser,
+					plans: { data: [...activeUser.plans.data, formedPlan] },
+				});
+				const abortController = new AbortController();
+				const updatedUser = { ...activeUser };
+				delete updatedUser["cookie"];
+				delete updatedUser["loggedin"];
+				console.log(updatedUser);
+				await updateAccount(
+					Number(updatedUser.user_id),
+					updatedUser,
+					abortController.signal
+				);
 
-			setFormData(defaultFormData);
-			window.alert("Created");
-		} else {
-			setError({ message: "Plan already exists" });
+				setFormData({
+					planName: "",
+					suppliesNeeded: [],
+					estimatedTime: 0,
+				});
+				window.alert("Updated");
+			}, 1000);
 		}
 	};
 
